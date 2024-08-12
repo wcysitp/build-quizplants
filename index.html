@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>QuizPlants</title>
-		
         <style>
             html, body {
                 width: 100%;
@@ -216,16 +215,6 @@
                 bridge.platform.sendMessage(message)
             }
 
-            window.getServerTime = function() {
-                bridge.platform.getServerTime()
-                    .then(result => {
-                        sendMessageToUnity('OnGetServerTimeCompleted', result.toString())
-                    })
-                    .catch(error => {
-                        sendMessageToUnity('OnGetServerTimeCompleted', 'false')
-                    })
-            }
-
 
             // device
             window.getDeviceType = function() {
@@ -383,6 +372,12 @@
             }
 
             window.setMinimumDelayBetweenInterstitial = function(options) {
+                if (options) {
+                    options = JSON.parse(options)
+                } else {
+                    options = { }
+                }
+                
                 bridge.advertisement.setMinimumDelayBetweenInterstitial(options)
             }
 
@@ -416,22 +411,16 @@
                 bridge.advertisement.hideBanner()
             }
 
-            window.showInterstitial = function() {
-                bridge.advertisement.showInterstitial()
+            window.showInterstitial = function(options) {
+                if (options) {
+                    options = JSON.parse(options)
+                }
+
+                bridge.advertisement.showInterstitial(options)
             }
 
             window.showRewarded = function() {
                 bridge.advertisement.showRewarded()
-            }
-
-            window.checkAdBlock = function() {
-                bridge.advertisement.checkAdBlock()
-                    .then(result => {
-                        sendMessageToUnity('OnCheckAdBlockCompleted', result.toString())
-                    })
-                    .catch(error => {
-                        sendMessageToUnity('OnCheckAdBlockCompleted', 'false')
-                    })
             }
 
 
@@ -482,12 +471,8 @@
                     })
             }
 
-            window.inviteFriends = function(options) {
-                if (options) {
-                    options = JSON.parse(options)
-                }
-                
-                bridge.social.inviteFriends(options)
+            window.inviteFriends = function() {
+                bridge.social.inviteFriends()
                     .then(() => {
                         sendMessageToUnity('OnInviteFriendsCompleted', 'true')
                     })
@@ -562,6 +547,10 @@
 
             window.getIsLeaderboardNativePopupSupported = function() {
                 return bridge.leaderboard.isNativePopupSupported.toString()
+            }
+
+            window.getIsLeaderboardMultipleBoardsSupported = function() {
+                return bridge.leaderboard.isMultipleBoardsSupported.toString()
             }
 
             window.getIsLeaderboardSetScoreSupported = function() {
@@ -652,12 +641,8 @@
                 return bridge.payments.isSupported.toString()
             }
 
-            window.paymentsPurchase = function(options) {
-                if (options) {
-                    options = JSON.parse(options)
-                }
-                
-                bridge.payments.purchase(options)
+            window.paymentsPurchase = function(purchaseId) {
+                bridge.payments.purchase(purchaseId)
                     .then(() => {
                         sendMessageToUnity('OnPaymentsPurchaseCompleted', 'true')
                     })
@@ -666,12 +651,8 @@
                     })
             }
 
-            window.paymentsConsumePurchase = function(options) {
-                if (options) {
-                    options = JSON.parse(options)
-                }
-                
-                bridge.payments.consumePurchase(options)
+            window.paymentsConsumePurchase = function(purchaseToken) {
+                bridge.payments.consumePurchase(purchaseToken)
                     .then(() => {
                         sendMessageToUnity('OnPaymentsConsumePurchaseCompleted', 'true')
                     })
@@ -728,6 +709,8 @@
             window.remoteConfigGet = function(options) {
                 if (options) {
                     options = JSON.parse(options)
+                } else {
+                    options = { clientFeatures: [] }
                 }
 
                 bridge.remoteConfig.get(options)
