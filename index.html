@@ -3,7 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>My project</title>
+        <title>QuizPlants</title>
+		
+		<script type="text/javascript" src="./WebAudioPlugin/howler.min.js"></script>
+        <script type="text/javascript" src="./WebAudioPlugin/WebAudio.js"></script>
+		
         <style>
             html, body {
                 width: 100%;
@@ -154,18 +158,18 @@
                     }
 
                     let unityLoader = document.createElement('script')
-                    unityLoader.src = 'Build/My project_build.loader.js'
+                    unityLoader.src = 'Build/QuizPlants_build.loader.js'
                     unityLoader.onload = () => {
                         createUnityInstance(
                             canvas,
                             {
-                                dataUrl: 'Build/My project_build.data',
-                                frameworkUrl: 'Build/My project_build.framework.js',
-                                codeUrl: 'Build/My project_build.wasm',
+                                dataUrl: 'Build/QuizPlants_build.data.unityweb',
+                                frameworkUrl: 'Build/QuizPlants_build.framework.js.unityweb',
+                                codeUrl: 'Build/QuizPlants_build.wasm.unityweb',
                                 streamingAssetsUrl: 'StreamingAssets',
-                                companyName: 'DefaultCompany',
-                                productName: 'My project',
-                                productVersion: '0.1.0',
+                                companyName: 'wcysitp',
+                                productName: 'QuizPlants',
+                                productVersion: '1.0',
                                 // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
                                 // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
                             },
